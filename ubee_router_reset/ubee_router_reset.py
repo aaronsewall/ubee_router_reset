@@ -6,7 +6,7 @@ from socket import gethostbyname, create_connection, error
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import configparser
-
+from twine.commands import upload
 
 def is_connected(hostname: str):
     """Wait between 30 to 90 seconds, then check if internet is connected."""

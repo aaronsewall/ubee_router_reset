@@ -9,8 +9,10 @@ import os
 import sys
 from shutil import rmtree
 from typing import Dict, List  # noqa, flake8
+from git import Repo
+from twine.commands.upload import main as twineupload
 
-from setuptools import find_packages, setup, Command
+from setuptools import find_packages, setup, Command, sandbox
 
 from pipenv.project import Project
 from pipenv.utils import convert_deps_to_pip
@@ -92,19 +94,18 @@ class UploadCommand(Command):
             pass
 
         self.status('Building Source and Wheel (universal) distribution…')
-        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+        sandbox.run_setup('setup.py', ['sdist', 'bdist_wheel', '--universal'])
 
         self.status('Uploading the package to PyPI via Twine…')
-        os.system('twine upload dist/*')
-
+        twineupload("dist/*")
         self.status('Pushing git tags…')
-        os.system('git tag v{0}'.format(about['__version__']))
-        os.system('git push --tags')
-
+        repo = Repo(os.getcwd())
+        tag_name = 'v{0}'.format(about['__version__'])
+        repo.create_tag(tag_name)
+        repo.remote('origin').push(tag_name)
         sys.exit()
 
 
-# Where the magic happens:
 setup(
     name=NAME,
     version=about['__version__'],
