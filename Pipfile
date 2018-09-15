@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+selenium = "*"
+
+[dev-packages]
+pipenv = "*"
+black = "==18.6b4"
+mypy = "*"
+"flake8" = "*"
+bandit = "*"
+pylint = "*"
+pydocstyle = "*"
+prospector = "*"
+pylama = "*"
+pytest = "*"
+sphinx = "*"
+"pep8" = "*"
+
+[requires]

@@ -1,0 +1,18 @@
+{
+    "python.pythonPath": "C:\\Users\\Aaron\\.virtualenvs\\ubee_router_reset-BgiPyxtn\\Scripts\\python.exe",
+    "files.autoSave": "afterDelay",
+    "python.formatting.provider": "black",
+    "python.linting.pep8Enabled": true,
+    "python.linting.pep8Args": [
+        "--max-line-length=88",
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=88",
+    ],
+    "python.linting.mypyEnabled": true,
+    "python.linting.pydocstyleEnabled": true,
+    "python.linting.prospectorEnabled": true,
+    "python.linting.pylamaEnabled": true,
+    "python.unitTest.pyTestEnabled": true,
+}

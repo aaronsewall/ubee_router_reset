@@ -1,0 +1,7 @@
+DEFAULT:
+  USERNAME: "support"
+  PASSWORD: "password"
+  URL: "192.168.0.1"
+  BACKUP_CONFIG: r"backupsettings.conf"
+  TEST_URL: 'http://google.com'
+  RETRY: 3

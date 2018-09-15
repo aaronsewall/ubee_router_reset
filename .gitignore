@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+geckodriver.log
+.idea
+myconfig.yaml
