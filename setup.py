@@ -57,7 +57,7 @@ except FileNotFoundError:
 about = {}  # type: Dict[str, str]
 if not VERSION:
     with open(os.path.join(here, NAME, '__version__.py')) as f:
-        exec(f.read(), about)
+        exec(f.read(), about)  # nosec
 else:
     about['__version__'] = VERSION
 

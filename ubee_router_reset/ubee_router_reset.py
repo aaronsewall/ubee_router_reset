@@ -1,17 +1,17 @@
 """Continually checks internet is up and reset if it's not."""
+from configparser import ConfigParser
 from random import randint
-from time import sleep
 from socket import gethostbyname, create_connection, error
+from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import configparser
-from twine.commands import upload
+
 
 def is_connected(hostname: str):
     """Wait between 30 to 90 seconds, then check if internet is connected."""
     # sleep 30 to 90 seconds
-    sleep(randint(30, 90))
+    sleep(randint(30, 90))  # nosec
     try:
         # see if we can resolve the host name -- tells us if there is
         # a DNS listening
@@ -25,15 +25,19 @@ def is_connected(hostname: str):
     return False
 
 
-def reset_modem_router(username: str = 'admin', password: str = 'password', url: str = '192.168.0.1',
-                       backup_config: str = 'backupsettings.conf', headerless: bool = True):
+def reset_modem_router(password: str,
+                       username: str = 'admin',
+                       url: str = '192.168.0.1',
+                       backup_config: str = 'backupsettings.conf',
+                       headless: bool = True,):
     """Reset Ubee modem router using selenium."""
     chrome_options = Options()
-    if headerless:
+    if headless:
         chrome_options.add_argument("--headless")
     driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.get("http://{}:{}@{}/htdocs/rg_mgt_config.php".format(username, password, url))
-    assert "Ubee" in driver.title
+    address = "http://{}:{}@{}/htdocs/rg_mgt_config.php".format(username, password, url)
+    driver.get(address)
+    assert "Ubee" in driver.title  # nosec
     elem = driver.find_element_by_id("ID_MGT_CONFIG_IMPORTFILE")
     elem.send_keys(backup_config)
     restore_button = driver.find_element_by_id("ID_MGT_CONFIG_RESTORE")
@@ -42,7 +46,7 @@ def reset_modem_router(username: str = 'admin', password: str = 'password', url:
 
 
 if __name__ == '__main__':
-    config = configparser.ConfigParser()
+    config = ConfigParser()
     config.read('myconfig.yml')
     c = config['DEFAULT']
     RETRY = int(c['RETRY'])
@@ -53,6 +57,6 @@ if __name__ == '__main__':
             RETRY -= 1
             if RETRY == 0:
                 print("Internet down! Resetting Ubee modem router...")
-                reset_modem_router(username=c['USERNAME'], password=c['PASSWORD'], url=c['URL'],
-                                   backup_config=c['BACKUP_CONFIG'])
+                reset_modem_router(username=c['USERNAME'], password=c['PASSWORD'],
+                                   url=c['URL'], backup_config=c['BACKUP_CONFIG'])
             break
